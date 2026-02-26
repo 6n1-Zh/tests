@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>伴侣星座匹配测试</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover" />
+  <meta name="description" content="15 题测试，看看你最适配哪一类星座伴侣。" />
+  <link rel="stylesheet" href="./src/styles/style.css" />
+</head>
+<body>
+  <main class="app-root">
+    <div class="card">
+
+      <section id="start-screen" class="screen screen--active">
+        <div class="logo-area">
+          <p class="logo-tag">伴侣星座匹配测试</p>
+          <h1 class="title">测测你最匹配的<br>星座伴侣类型</h1>
+          <p class="subtitle">15 题性格小测试 · 大约 3 分钟完成</p>
+        </div>
+
+        <div class="meta-row">
+          <span class="meta-pill">完全匿名</span>
+          <span class="meta-pill">手机优先设计</span>
+          <span class="meta-pill">无任何账号登录</span>
+        </div>
+
+        <button id="start-btn" class="btn btn-primary btn-large" type="button">
+          开始测试
+        </button>
+
+        <p class="hint-text">共 15 题 · 每题选 A/B/C/D 即可</p>
+      </section>
+
+      <section id="quiz-screen" class="screen">
+        <header class="quiz-header">
+          <button id="back-to-start-btn" class="icon-btn" type="button" aria-label="返回">
+            ←
+          </button>
+          <div class="quiz-progress">
+            <span id="progress-label" class="progress-label">第 1 / 15 题</span>
+            <div class="progress-bar">
+              <div id="progress-bar-inner" class="progress-bar__inner"></div>
+            </div>
+          </div>
+        </header>
+
+        <article class="question-area">
+          <p id="question-text" class="question-text">
+            题目加载中…
+          </p>
+
+          <div id="options-container" class="options-list">
+          </div>
+        </article>
+      </section>
+
+      <section id="result-screen" class="screen">
+        <header class="result-header">
+          <button id="restart-btn-top" class="icon-btn" type="button">
+            ← 重新测试
+          </button>
+        </header>
+
+        <article class="result-body">
+          <p class="result-tag">你的测试结果</p>
+          <h2 id="result-sign" class="result-title">加载中…</h2>
+          <p id="result-type" class="result-type"></p>
+
+          <div class="result-element-score">
+            <h3 class="section-title">四象得分</h3>
+            <ul id="score-list" class="score-list">
+            </ul>
+          </div>
+
+          <div class="result-text-block">
+            <h3 class="section-title">匹配解读</h3>
+            <p id="result-text" class="result-text"></p>
+          </div>
+        </article>
+
+        <footer class="result-footer">
+          <button id="restart-btn-bottom" class="btn btn-secondary btn-large" type="button">
+            再测一次 / 换个感觉
+          </button>
+        </footer>
+      </section>
+
+    </div>
+  </main>
+
+  <script type="module" src="./src/js/main.js"></script>
+</body>
+</html>
+
