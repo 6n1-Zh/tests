@@ -1,5 +1,5 @@
 import { QUESTIONS } from '../data/questions.js';
-import { calculateQuizResult, SIGN_INFO } from '../data/quizConfig.js';
+import { calculateQuizResult, SIGN_INFO } from '../data/quizConfig.js';  // 添加 SIGN_INFO
 
 const startScreen = document.getElementById('start-screen');
 const quizScreen = document.getElementById('quiz-screen');
