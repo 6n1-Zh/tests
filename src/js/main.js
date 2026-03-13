@@ -1,5 +1,5 @@
 import { QUESTIONS } from '../data/questions.js';
-import { calculateQuizResult } from '../data/quizConfig.js';
+import { calculateQuizResult, SIGN_INFO } from '../data/quizConfig.js';
 
 const startScreen = document.getElementById('start-screen');
 const quizScreen = document.getElementById('quiz-screen');
@@ -82,52 +82,49 @@ function handleFinish() {
   const finalAnswers = answers.slice(0, totalQuestions);
 
   const result = calculateQuizResult(finalAnswers);
-
-  const elementMapToEmoji = {
-    fire: '🔥 火象',
-    water: '💧 水象',
-    air: '🌪️ 风象',
-    earth: '⛰️ 土象'
-  };
-  const elementLabel = elementMapToEmoji[result.element] || result.element;
-
-  if (result.sign) {
-    resultSignEl.textContent = `${result.sign} · ${elementLabel}`;
-  } else {
-    resultSignEl.textContent = elementLabel;
-  }
-
-  resultTypeEl.textContent = result.type ? `整体类型：${result.type}` : '';
-
+  
+  // 显示最佳星座
+  resultSignEl.textContent = result.bestName;
+  
+  // 清空类型显示（新逻辑没有type字段）
+  resultTypeEl.textContent = '';
+  
+  // 构建分数列表
   scoreListEl.innerHTML = '';
-  const scoreEntries = [
-    { key: 'fire', label: '🔥 火象', value: result.elementScore.fire },
-    { key: 'water', label: '💧 水象', value: result.elementScore.water },
-    { key: 'air', label: '🌪️ 风象', value: result.elementScore.air },
-    { key: 'earth', label: '⛰️ 土象', value: result.elementScore.earth }
-  ];
-
-  const maxScore = Math.max(...scoreEntries.map(s => s.value || 0)) || 1;
-
+  
+  // 将星座分数转换为数组
+  const scoreEntries = Object.entries(result.scores).map(([sign, score]) => ({
+    sign,
+    name: SIGN_INFO[sign].name,
+    score
+  }));
+  
+  // 按分数从高到低排序
+  scoreEntries.sort((a, b) => b.score - a.score);
+  
+  // 计算最高分用于进度条比例
+  const maxScore = Math.max(...scoreEntries.map(item => item.score)) || 1;
+  
+  // 渲染每个星座的分数
   scoreEntries.forEach(item => {
     const li = document.createElement('li');
     li.className = 'score-item';
 
     const labelSpan = document.createElement('span');
     labelSpan.className = 'score-label';
-    labelSpan.textContent = item.label;
+    labelSpan.textContent = item.name;
 
     const barOuter = document.createElement('div');
     barOuter.className = 'score-bar';
 
     const barInner = document.createElement('div');
     barInner.className = 'score-bar__inner';
-    const widthPercent = (item.value / maxScore) * 100;
+    const widthPercent = (item.score / maxScore) * 100;
     barInner.style.width = `${widthPercent}%`;
 
     const valueSpan = document.createElement('span');
     valueSpan.className = 'score-value';
-    valueSpan.textContent = item.value;
+    valueSpan.textContent = item.score;
 
     barOuter.appendChild(barInner);
 
@@ -138,6 +135,7 @@ function handleFinish() {
     scoreListEl.appendChild(li);
   });
 
+  // 显示完整结果文本
   resultTextEl.textContent = result.text || '';
 
   showScreen(resultScreen);
@@ -156,6 +154,7 @@ function startQuiz() {
   renderQuestion();
 }
 
+// 绑定事件监听器
 if (startBtn) {
   startBtn.addEventListener('click', startQuiz);
 }
@@ -171,4 +170,3 @@ if (restartBtnTop) {
 if (restartBtnBottom) {
   restartBtnBottom.addEventListener('click', resetQuiz);
 }
-
